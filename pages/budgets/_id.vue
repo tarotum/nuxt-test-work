@@ -13,6 +13,11 @@
         :disabled="limit"
       >Add transaction</button>
     </div>
+
+    <div class="notification" v-show="limit">
+      <p>You have exceeded your limit by {{budgetLeft * -1}} {{budget.currency}}!</p>
+    </div>
+
     <nuxt-link class="back-link" to="/budgets">Back</nuxt-link>
     <div v-if="showModal" class="modal">
       <div class="modal-wrapper">
@@ -98,10 +103,15 @@ export default {
   },
   methods: {
     addTransaction(transaction) {
-      this.$store.dispatch("budgets/ADD_BUDGET_TRANSACT", {
-        budget_id: this.id,
-        transaction
-      });
+      if (!this.limit) {
+        this.$store.dispatch("budgets/ADD_BUDGET_TRANSACT", {
+          budget_id: this.id,
+          transaction
+        });
+      } else {
+        confirm("Sorry, You have exceeded your limit.");
+      }
+      this.showModal = false;
     },
 
     async fetchRates() {
@@ -130,6 +140,12 @@ export default {
   margin-left: auto;
   margin-right: auto;
   margin-top: 5vh;
+}
+.notification {
+  background-color: rgba(255, 0, 0, 0.3);
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: 0.3em;
 }
 .budget-info {
   color: #222;

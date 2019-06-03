@@ -1,7 +1,7 @@
 <template>
   <form class="form" @submit.prevent="send">
-    <input type="text" name="name" v-model="name" placeholder="Name">
-    <select name="currency" v-model="currency" aria-placeholder="currency">
+    <input type="text" name="name" v-model="name" placeholder="Name" required>
+    <select name="currency" v-model="currency" aria-placeholder="currency" required>
       <option value disabled selected>Select your currency</option>
       <option
         v-for="(currency, index) in currencyOptions"
@@ -9,7 +9,7 @@
         :value="currency"
       >{{currency}}</option>
     </select>
-    <input type="number" name="sum" v-model="sum" placeholder="Sum">
+    <input type="number" name="sum" v-model="sum" placeholder="Sum" required>
     <button type="submit" class="add-new-budget">Add</button>
   </form>
 </template>
